@@ -123,6 +123,10 @@ public class SpeechRecognition: CAPPlugin {
             })
 
             inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { (buffer: AVAudioPCMBuffer, _: AVAudioTime) in
+                // Send raw PCM buffer to JS as base64
+                if let audioData = self.bufferToData(buffer) {
+                    self.notifyListeners("audioBuffer", data: ["buffer": audioData.base64EncodedString()])
+                }
                 self.recognitionRequest?.append(buffer)
             }
 
@@ -207,5 +211,14 @@ public class SpeechRecognition: CAPPlugin {
                 }
             }
         }
+    }
+
+    // Helper to convert AVAudioPCMBuffer to Data (Int16 PCM)
+    func bufferToData(_ buffer: AVAudioPCMBuffer) -> Data? {
+        guard let channelData = buffer.int16ChannelData else { return nil }
+        let channelDataPointer = channelData.pointee
+        let frameLength = Int(buffer.frameLength)
+        let data = Data(bytes: channelDataPointer, count: frameLength * MemoryLayout<Int16>.size)
+        return data
     }
 }

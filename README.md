@@ -55,6 +55,7 @@ No further action required.
 * [`requestPermissions()`](#requestpermissions)
 * [`addListener('partialResults', ...)`](#addlistenerpartialresults-)
 * [`addListener('listeningState', ...)`](#addlistenerlisteningstate-)
+* [`addListener('audioBuffer', ...)`](#addlisteneraudiobuffer-)
 * [`removeAllListeners()`](#removealllisteners)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
@@ -239,6 +240,26 @@ Called when listening state changed.
 | ------------------ | ------------------------------------------------------------------- |
 | **`eventName`**    | <code>'listeningState'</code>                                       |
 | **`listenerFunc`** | <code>(data: { status: 'started' \| 'stopped'; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+**Since:** 5.1.0
+
+--------------------
+
+
+### addListener('audioBuffer', ...)
+
+```typescript
+addListener(eventName: 'audioBuffer', listenerFunc: (data: { buffer: string; }) => void) => Promise<PluginListenerHandle>
+```
+
+Called when audioBuffer is received.
+
+| Param              | Type                                                |
+| ------------------ | --------------------------------------------------- |
+| **`eventName`**    | <code>'audioBuffer'</code>                          |
+| **`listenerFunc`** | <code>(data: { buffer: string; }) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 

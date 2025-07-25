@@ -88,6 +88,16 @@ export interface SpeechRecognitionPlugin {
     eventName: 'listeningState',
     listenerFunc: (data: { status: 'started' | 'stopped' }) => void,
   ): Promise<PluginListenerHandle>;
+
+  /**
+   * Called when audioBuffer is received.
+   *
+   * @since 5.1.0
+   */
+  addListener(
+    eventName: 'audioBuffer',
+    listenerFunc: (data: { buffer: string }) => void,
+  ): Promise<PluginListenerHandle>;
   /**
    * Remove all the listeners that are attached to this plugin.
    *
