@@ -213,12 +213,17 @@ public class SpeechRecognition: CAPPlugin {
         }
     }
 
-    // Helper to convert AVAudioPCMBuffer to Data (Int16 PCM)
     func bufferToData(_ buffer: AVAudioPCMBuffer) -> Data? {
-        guard let channelData = buffer.int16ChannelData else { return nil }
-        let channelDataPointer = channelData.pointee
+        guard let floatChannelData = buffer.floatChannelData else { return nil }
         let frameLength = Int(buffer.frameLength)
-        let data = Data(bytes: channelDataPointer, count: frameLength * MemoryLayout<Int16>.size)
-        return data
+        let channelCount = Int(buffer.format.channelCount)
+        // Interleave channels if more than one
+        var floatData = [Float]()
+        for frame in 0..<frameLength {
+            for channel in 0..<channelCount {
+                floatData.append(floatChannelData[channel][frame])
+            }
+        }
+        return Data(buffer: UnsafeBufferPointer(start: floatData, count: floatData.count))
     }
 }
