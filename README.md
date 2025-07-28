@@ -50,6 +50,7 @@ No further action required.
 * [`start(...)`](#start)
 * [`stop()`](#stop)
 * [`getSupportedLanguages()`](#getsupportedlanguages)
+* [`userLanguages()`](#userlanguages)
 * [`isListening()`](#islistening)
 * [`checkPermissions()`](#checkpermissions)
 * [`requestPermissions()`](#requestpermissions)
@@ -155,6 +156,24 @@ This method will return list of languages supported by the speech recognizer.
 It's not available on Android 13 and newer.
 
 **Returns:** <code>Promise&lt;{ languages: any[]; }&gt;</code>
+
+--------------------
+
+
+### userLanguages()
+
+```typescript
+userLanguages() => Promise<{ languages: string[]; }>
+```
+
+This method will return list of user device languages available for speech recognition.
+
+On iOS, it returns the user's preferred languages from device settings that are 
+also supported by speech recognition.
+
+On Android, it returns the user's preferred locales from system settings.
+
+**Returns:** <code>Promise&lt;{ languages: string[]; }&gt;</code>
 
 --------------------
 

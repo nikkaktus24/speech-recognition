@@ -11,6 +11,9 @@ export declare class SpeechRecognitionWeb extends WebPlugin implements SpeechRec
     getSupportedLanguages(): Promise<{
         languages: any[];
     }>;
+    userLanguages(): Promise<{
+        languages: string[];
+    }>;
     hasPermission(): Promise<{
         permission: boolean;
     }>;

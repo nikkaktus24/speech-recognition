@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.locks.ReentrantLock;
 import org.json.JSONArray;
+import android.os.LocaleList;
 
 @CapacitorPlugin(
     permissions = { @Permission(strings = { Manifest.permission.RECORD_AUDIO }, alias = SpeechRecognition.SPEECH_RECOGNITION) }
@@ -111,6 +112,43 @@ public class SpeechRecognition extends Plugin implements Constants {
             detailsIntent.setPackage("com.google.android.googlequicksearchbox");
         }
         bridge.getActivity().sendOrderedBroadcast(detailsIntent, null, languageReceiver, null, Activity.RESULT_OK, null, null);
+    }
+
+    @PluginMethod
+    public void userLanguages(PluginCall call) {
+        try {
+            // Get user's preferred locales
+            List<String> userLanguages = new ArrayList<>();
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                // API 24+: Use LocaleList to get ordered list of user preferences
+                LocaleList localeList = bridge.getContext().getResources().getConfiguration().getLocales();
+                for (int i = 0; i < localeList.size(); i++) {
+                    Locale locale = localeList.get(i);
+                    String languageTag = locale.toLanguageTag();
+                    userLanguages.add(languageTag);
+                }
+            } else {
+                // Pre-API 24: Use default locale
+                Locale defaultLocale = bridge.getContext().getResources().getConfiguration().locale;
+                if (defaultLocale != null) {
+                    userLanguages.add(defaultLocale.toLanguageTag());
+                }
+            }
+            
+            // Also add system default locale if it's not already included
+            Locale systemDefault = Locale.getDefault();
+            String systemDefaultTag = systemDefault.toLanguageTag();
+            if (!userLanguages.contains(systemDefaultTag)) {
+                userLanguages.add(systemDefaultTag);
+            }
+
+            JSONArray languages = new JSONArray(userLanguages);
+            call.resolve(new JSObject().put("languages", languages));
+            
+        } catch (Exception e) {
+            call.reject("Failed to get user languages: " + e.getMessage());
+        }
     }
 
     @PluginMethod

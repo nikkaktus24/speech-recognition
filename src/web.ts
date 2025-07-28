@@ -15,6 +15,9 @@ export class SpeechRecognitionWeb extends WebPlugin implements SpeechRecognition
   getSupportedLanguages(): Promise<{ languages: any[] }> {
     throw this.unimplemented('Method not implemented on web.');
   }
+  userLanguages(): Promise<{ languages: string[] }> {
+    throw this.unimplemented('Method not implemented on web.');
+  }
   hasPermission(): Promise<{ permission: boolean }> {
     throw this.unimplemented('Method not implemented on web.');
   }

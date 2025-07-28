@@ -90,6 +90,25 @@
         "slug": "getsupportedlanguages"
       },
       {
+        "name": "userLanguages",
+        "signature": "() => Promise<{ languages: string[]; }>",
+        "parameters": [],
+        "returns": "Promise<{ languages: string[]; }>",
+        "tags": [
+          {
+            "name": "param",
+            "text": "none"
+          },
+          {
+            "name": "returns",
+            "text": "languages - array string of user device languages"
+          }
+        ],
+        "docs": "This method will return list of user device languages available for speech recognition.\n\nOn iOS, it returns the user's preferred languages from device settings that are \nalso supported by speech recognition.\n\nOn Android, it returns the user's preferred locales from system settings.",
+        "complexTypes": [],
+        "slug": "userlanguages"
+      },
+      {
         "name": "isListening",
         "signature": "() => Promise<{ listening: boolean; }>",
         "parameters": [],

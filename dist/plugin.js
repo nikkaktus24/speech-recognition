@@ -18,6 +18,9 @@ var capacitorSpeechRecognition = (function (exports, core) {
         getSupportedLanguages() {
             throw this.unimplemented('Method not implemented on web.');
         }
+        userLanguages() {
+            throw this.unimplemented('Method not implemented on web.');
+        }
         hasPermission() {
             throw this.unimplemented('Method not implemented on web.');
         }

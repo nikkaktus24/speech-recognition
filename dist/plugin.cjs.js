@@ -19,6 +19,9 @@ class SpeechRecognitionWeb extends core.WebPlugin {
     getSupportedLanguages() {
         throw this.unimplemented('Method not implemented on web.');
     }
+    userLanguages() {
+        throw this.unimplemented('Method not implemented on web.');
+    }
     hasPermission() {
         throw this.unimplemented('Method not implemented on web.');
     }

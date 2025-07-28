@@ -50,6 +50,20 @@ export interface SpeechRecognitionPlugin {
         languages: any[];
     }>;
     /**
+     * This method will return list of user device languages available for speech recognition.
+     *
+     * On iOS, it returns the user's preferred languages from device settings that are
+     * also supported by speech recognition.
+     *
+     * On Android, it returns the user's preferred locales from system settings.
+     *
+     * @param none
+     * @returns languages - array string of user device languages
+     */
+    userLanguages(): Promise<{
+        languages: string[];
+    }>;
+    /**
      * This method will check if speech recognition is listening.
      * @param none
      * @returns boolean true/false if speech recognition is currently listening

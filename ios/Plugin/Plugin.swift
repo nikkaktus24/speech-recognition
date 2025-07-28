@@ -31,6 +31,33 @@ public class SpeechRecognition: CAPPlugin {
         ])
     }
 
+    @objc func userLanguages(_ call: CAPPluginCall) {
+        // Get user's preferred languages from device settings
+        let preferredLanguages = Locale.preferredLanguages
+        
+        // Get supported languages for speech recognition
+        let supportedLanguages: Set<Locale> = SFSpeechRecognizer.supportedLocales()
+        let supportedLanguageIds = Set(supportedLanguages.map { $0.identifier })
+        
+        // Filter preferred languages to only include those supported by speech recognition
+        let availableUserLanguages = preferredLanguages.filter { languageId in
+            // Check if the exact language is supported
+            if supportedLanguageIds.contains(languageId) {
+                return true
+            }
+            
+            // Check if a base language variant is supported (e.g., "en" for "en-US")
+            let baseLanguage = String(languageId.prefix(2))
+            return supportedLanguageIds.contains { supportedId in
+                supportedId.hasPrefix(baseLanguage)
+            }
+        }
+        
+        call.resolve([
+            "languages": availableUserLanguages
+        ])
+    }
+
     @objc func start(_ call: CAPPluginCall) {
         if self.audioEngine != nil {
             if self.audioEngine!.isRunning {
